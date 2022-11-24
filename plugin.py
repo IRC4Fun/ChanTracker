@@ -155,6 +155,7 @@ def matchHostmask(pattern, n, resolve):
 
 def matchAccount(pattern, pat, negate, n, extprefix):
     # for $a, $~a, $a: extended pattern
+    # for IRC4Fun, this is R:
     result = None
     if negate:
         if not len(pat) and n.account is None:
@@ -163,10 +164,10 @@ def matchAccount(pattern, pat, negate, n, extprefix):
         if len(pat):
             if n.account is not None and ircutils.hostmaskPatternEqual(
                     '*!*@%s' % pat, '*!*@%s' % n.account):
-                result = '%sa:%s' % (extprefix, n.account)
+                result = '%sR:%s' % (extprefix, n.account)
         else:
             if n.account is not None:
-                result = '%sa:%s' % (extprefix, n.account)
+                result = '%sR:%s' % (extprefix, n.account)
     return result
 
 
@@ -260,7 +261,7 @@ def getBestPattern(n, irc, useIp=False, resolve=True):
     match(n.prefix, n, irc, resolve)
     results = []
     (nick, ident, host) = ircutils.splitHostmask(n.prefix)
-    if host.startswith(('gateway/tor-sasl/', 'gateway/vpn/', 'user/')) \
+    if host.startswith(('gateway/tor-sasl/', 'gateway/vpn/', 'users/')) \
             or ident.startswith('~') or (n.realname and
             n.realname.startswith('[https://web.libera.chat]')):
         ident = '*'
