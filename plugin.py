@@ -1879,13 +1879,13 @@ class ChanTracker(callbacks.Plugin, plugins.ChannelDBHandler):
     def q(self, irc, msg, args, channel, items, seconds, reason):
         """[<channel>] <nick|hostmask>[,<nick|hostmask>] [<years>y] [<weeks>w] [<days>d] [<hours>h] [<minutes>m] [<seconds>s] <reason>
 
-        +b m: targets for duration; <reason> is mandatory, <-1> or empty means forever"""
-        b = self._adds(irc, msg, args, channel, 'b m:', items, getDuration(seconds), reason, False)
+        +q targets for duration; <reason> is mandatory, <-1> or empty means forever"""
+        b = self._adds(irc, msg, args, channel, 'q', items, getDuration(seconds), reason, False)
         if msg.nick != irc.nick and not b:
-            irc.reply('nicks not found or hostmasks invalid or targets are already quieted')
+            irc.reply('nicks not found or hostmasks invalid or targets are already +q')
         self.forceTickle = True
         self._tickle(irc)
-    q = wrap(b m:, ['op', commalist('something'), any('getTs', True), rest('text')])
+    q = wrap(q, ['op', commalist('something'), any('getTs', True), rest('text')])
 
     def b(self, irc, msg, args, channel, optlist, items, seconds, reason):
         """[<channel>] [--perm] <nick|hostmask>[,<nick|hostmask>] [<years>y] [<weeks>w] [<days>d] [<hours>h] [<minutes>m] [<seconds>s] <reason>
